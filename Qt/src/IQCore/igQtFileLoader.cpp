@@ -1,4 +1,4 @@
-﻿//
+//
 // Created by m_ky on 2024/4/22.
 //
 /**
@@ -72,7 +72,7 @@ void igQtFileLoader::LoadOnlineS() {
 }
 void igQtFileLoader::LoadOnlineC() {
 #if defined(_WIN32) || defined(_WIN64)
-    QStringList filters = {"ALL FIle(*.obj *.off *.stl *.ply *.vtk *.mesh *.pvd *.vts *.vtu "
+    QStringList filters = {"ALL FIle(*.obj *.off *.stl *.ply *.vtk *.mesh *.pvd *.vts *.vti *.vtu "
                            "*.vtm *.cgns *.odb *.igc *.igcm *.cas *.ccm *.rst *.rth)",
                            "VTK file(*.vtk)",
                            "CGNS file(*.cgns)",
@@ -111,7 +111,7 @@ void igQtFileLoader::LoadOnlineC() {
 }
 void igQtFileLoader::LoadFile() {
     QStringList filters = {
-        "ALL File(*.obj *.off *.stl *.ply *.vtk *.mesh *.pvd *.vts *.vtu "
+        "ALL File(*.obj *.off *.stl *.ply *.vtk *.mesh *.pvd *.vts *.vti *.vtu "
         "*.vtm *.cgns *.igc *.igcm *.cas *.ccm *.rst *.rth *.xml"
 #if defined(AbqSDK_ENABLE)
         " *.odb"
