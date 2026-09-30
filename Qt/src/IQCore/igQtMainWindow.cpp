@@ -835,6 +835,7 @@ void igQtMainWindow::initAllUnDefinedComponents() {
     this->addDockWidget(Qt::LeftDockWidgetArea, ui->dockWidget_GenerateProcessIds);
     this->addDockWidget(Qt::LeftDockWidgetArea, ui->dockWidget_ExtractEdges);
     this->addDockWidget(Qt::LeftDockWidgetArea, ui->dockWidget_CountCellVertices);
+    this->addDockWidget(Qt::LeftDockWidgetArea, ui->dockWidget_MedianFilter);
     this->addDockWidget(Qt::LeftDockWidgetArea, ui->dockWidget_MergeVectorComponents);
 
     // 禁止所有 dock 悬浮：去掉 DockWidgetFloatable
@@ -858,6 +859,7 @@ void igQtMainWindow::initAllUnDefinedComponents() {
     ui->dockWidget_ContourExtract->setFeatures(QDockWidget::DockWidgetClosable);
     ui->dockWidget_ExtractEdges->setFeatures(QDockWidget::DockWidgetClosable);
     ui->dockWidget_CountCellVertices->setFeatures(QDockWidget::DockWidgetClosable);
+    ui->dockWidget_MedianFilter->setFeatures(QDockWidget::DockWidgetClosable);
     ui->dockWidget_MergeVectorComponents->setFeatures(QDockWidget::DockWidgetClosable);
 
     QDockWidget* dockWidget_null = new QDockWidget("", this);
@@ -882,6 +884,7 @@ void igQtMainWindow::initAllUnDefinedComponents() {
     ui->dockWidget_GenerateProcessIds->hide();
     ui->dockWidget_ExtractEdges->hide();
     ui->dockWidget_CountCellVertices->hide();
+    ui->dockWidget_MedianFilter->hide();
 
     ui->dockWidget_MergeVectorComponents->hide();
 
@@ -6819,6 +6822,16 @@ void igQtMainWindow::initAllDockWidgetConnectWithAction() {
                 if (!dataObject) return;
                 ui->widget_CountCellVertices->SetOriginDataObject(dataObject);
             });
+    connect(ui->menu_filters->addAction(QStringLiteral("中值滤波 (Median)")), &QAction::triggered, this, [this](bool) {
+        openLeftToolPanel(LeftToolPanelId::MedianFilter);
+        auto scene = iGame::SceneManager::Instance()->GetCurrentScene();
+        if (!scene) return;
+        auto CurrentModel = scene->GetCurrentModel();
+        if (!CurrentModel) return;
+        auto dataObject = CurrentModel->GetDataObject();
+        if (!dataObject) return;
+        ui->widget_MedianFilter->SetOriginDataObject(dataObject);
+    });
     connect(ui->action_MergeVectorComponents, &QAction::triggered, this, [this](bool) {
         openLeftToolPanel(LeftToolPanelId::MergeVectorComponents);
         auto scene = iGame::SceneManager::Instance()->GetCurrentScene();
@@ -7148,6 +7161,8 @@ QDockWidget* igQtMainWindow::shellDockForLeftPanel(LeftToolPanelId id) const {
             return ui->dockWidget_ExtractEdges;
         case LeftToolPanelId::CountCellVertices:
             return ui->dockWidget_CountCellVertices;
+        case LeftToolPanelId::MedianFilter:
+            return ui->dockWidget_MedianFilter;
         case LeftToolPanelId::Slice:
             return SliceDockWidget;
         case LeftToolPanelId::ResampleToLine: 
@@ -7292,6 +7307,10 @@ void igQtMainWindow::openLeftToolPanel(LeftToolPanelId id) {
         case LeftToolPanelId::CountCellVertices:
             relocateContentToLeftTab(ui->dockWidget_CountCellVertices, ui->widget_CountCellVertices,
                                      QStringLiteral("统计单元顶点数"), id, false);
+            break;
+        case LeftToolPanelId::MedianFilter:
+            relocateContentToLeftTab(ui->dockWidget_MedianFilter, ui->widget_MedianFilter,
+                                     QStringLiteral("中值滤波"), id, false);
             break;
         case LeftToolPanelId::Slice:
             relocateContentToLeftTab(SliceDockWidget, SliceWidget, QStringLiteral("网格切面"), id, false);
@@ -7567,6 +7586,15 @@ void igQtMainWindow::initAllMySignalConnections() {
                 modelTreeWidget->addDataObjectToModelTree(res, ItemSource::Algorithm);
             });
     connect(ui->widget_ContourExtract, &igQtContourExtractWidget::UpdateContourModel, this,
+            [&](DataObject::Pointer mesh) {
+                modelTreeWidget->updateCurrentModelInfo();
+                rendererWidget->update();
+            });
+    connect(ui->widget_MedianFilter, &igQtMedianFilterWidget::DrawMedianModel, this,
+            [&](iGame::DataObject::Pointer res) {
+                modelTreeWidget->addDataObjectToModelTree(res, ItemSource::Algorithm);
+            });
+    connect(ui->widget_MedianFilter, &igQtMedianFilterWidget::UpdateMedianModel, this,
             [&](DataObject::Pointer mesh) {
                 modelTreeWidget->updateCurrentModelInfo();
                 rendererWidget->update();

@@ -368,6 +368,7 @@ igame_add_example(testThresholdAndGenerateIds Filter/TestThresholdAndGenerateIds
 igame_add_example(testMultiBlockGeometry Filter/TestMultiBlockGeometry.cpp)
 igame_add_example(testShrink Filter/Shrink/TestShrink.cpp)
 igame_add_example(testShrinkModel Filter/Shrink/TestShrinkModel.cpp)
+igame_add_example(testMedianFilter Filter/Median/TestMedianFilter.cpp)
 igame_add_example(testGenerateProcessIds Filter/TestGenerateProcessIds.cpp)
 igame_add_example(testCellMeshMetrics Filter/TestCellMeshMetrics.cpp)
 igame_add_example(testGhostDemo Filter/GhostCell/TestGhostDemo.cpp)

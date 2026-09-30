@@ -20,6 +20,7 @@
 #include "MeshCodec/iGameMeshDecoderFilter.h"
 #include "MeshCodec/iGameMeshEncoderFilter.h"
 #include "MergeVectorComponents/iGameMergeVectorComponentsFilter.h"
+#include "Median/iGameMedianFilter.h"
 #include "ModelSurface/iGameModelGeometryFilter.h"
 #include "ParallelCoordinates/iGameGenerateParallelCoordinatesData.h"
 #include "Periodic/iGameAngularPeriodicFilter.h"

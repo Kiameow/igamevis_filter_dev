@@ -49,6 +49,7 @@ class igQtExtractCellsByTypeWidget;
 class igQtAxisAlignedReflectionWidget;
 class igQtPointAndCellIdsWidget;
 class igQtExtractComponentWidget;
+class igQtMedianFilterWidget;
 class QDialog;
 
 
@@ -73,6 +74,7 @@ public:
         MergeVectorComponents,
         ExtractCellsByType,
         GenerateProcessIds,
+        MedianFilter,
         Count
     };
 
@@ -201,7 +203,7 @@ private:
     QDialog* m_extractComponentDialog = nullptr;
     igQtExtractComponentWidget* m_extractComponentWidget = nullptr;
     std::array<int, static_cast<size_t>(LeftToolPanelId::Count)> m_leftToolTabByPanel{
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
 
     void relocateContentToLeftTab(QDockWidget* shell, QWidget* inner, const QString& title, LeftToolPanelId id,
                                   bool centerFlowField);
